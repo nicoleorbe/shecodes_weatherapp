@@ -1,0 +1,148 @@
+:root {
+  --dark-turquoise: #4897a8;
+  --med-turquoise: #59b4c9;
+  --light-turquoise: #7dc4d4;
+  --sun-yellow: #fddc54;
+  --sun-orange: #e98d22;
+  --button-box-shadow: 2px 2px 2px 1px rgba(0, 0, 255, 0.2);
+  --button-hover-transiton: all 200ms ease-in-out;
+  --button-border-radius: 20px;
+  --button-dt-shadow: 2px 2px 2px 1px rgba(72, 151, 168, 0.3);
+  --shadow: 0px 0px 20px 6px rgba(72, 151, 168, 0.5);
+}
+
+footer {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+footer span {
+  display: inline-block;
+}
+
+.search-bar .btn {
+  background-color: var(--sun-yellow);
+  border-radius: var(--button-border-radius);
+  color: var(--dark-turquoise);
+  border: 1px solid var(--sun-yellow);
+  box-shadow: var(--button-dt-shadow);
+  transition: var(--button-hover-transiton);
+}
+
+.search-bar .btn:hover {
+  background-color: var(--dark-turquoise);
+  color: white;
+  border: 1px solid var(--dark-turquoise);
+}
+
+#button-current {
+  background-color: var(--dark-turquoise);
+  color: white;
+  border: 1px solid var(--dark-turquoise);
+}
+
+#button-current:hover {
+  background-color: var(--sun-yellow);
+  color: var(--dark-turquoise);
+  border: 1px solid var(--sun-yellow);
+}
+
+.search-bar .input-search-new-city:focus {
+  box-shadow: var(--dark-turquoise);
+}
+
+.weather-container {
+  display: block;
+  margin: 0 auto;
+  background-color: #edf7fa;
+  max-width: 800px;
+}
+.current-city {
+  line-height: 20px;
+  margin-bottom: 0;
+  text-align: left;
+  text-transform: capitalize;
+}
+
+.current-temp {
+  margin-top: 0;
+  line-height: 40px;
+  text-align: left;
+  font-size: 50px;
+}
+
+.degree-toggle a {
+  text-decoration: none;
+  color: var(--bs-heading-color, inherit);
+}
+
+.weather-title {
+  text-align: right;
+  margin-bottom: 0;
+}
+
+.current-datetime {
+  margin-bottom: 5px;
+}
+
+.current-datetime,
+.current-weather {
+  text-align: right;
+  margin-top: 0;
+  line-height: 15px;
+}
+
+.current-weather {
+  text-transform: capitalize;
+}
+
+.toggle-options a {
+  text-decoration: none;
+  color: var(--bs-gray-dark);
+}
+
+.toggle-options a:hover {
+  color: var(--dark-turquoise);
+}
+
+.toggle-options a:active {
+  text-decoration: underline;
+}
+
+.next-five-days a {
+  text-decoration: none;
+  color: var(--bs-gray-dark);
+}
+
+.img-current-temp {
+  width: 100px;
+}
+
+.img-temp-graph {
+  display: block;
+  margin: 10px auto;
+}
+
+.img-next {
+  width: 50px;
+  height: 50px;
+  object-fit: scale-down;
+}
+.span-footer-name {
+  background: linear-gradient(-225deg, #ff057c 0%, #8d0b93 50%, #321575 100%);
+  color: white;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.span-footer-name:hover {
+  transform: scale(1.1);
+}
+.span-footer-coffee {
+  font-size: larger;
+}
+
+.span-footer-coffee:hover {
+  transform: scale(1.3);
+}
