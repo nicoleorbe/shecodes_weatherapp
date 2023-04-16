@@ -42,80 +42,72 @@ function displayForecast() {
 }
 
 //display weather for current city.... rename for "my weather"
-function showMyWeather(response) {
-  let myTempMax = Math.round(response.data.main.temp_max);
-  let myTempMin = Math.round(response.data.main.temp_min);
-  let myFeelsLike = Math.round(response.data.main.feels_like);
+function showCurrentF(response) {
+  let myTemp = Math.round(response.data.main.temp);
+  let myCity = response.data.name;
+  let myWeatherDescription = response.data.weather[0].description;
+  let myWeatherMain = response.data.weather[0].main;
+  let myHumidity = response.data.main.humidity;
+  let myWind = response.data.wind.speed;
+  let myTempMax = response.data.main.temp_max;
+  let myTempMin = response.data.main.temp_min;
+  let myFeelsLike = response.data.main.feels_like;
 
-  myFahrenheit = Math.round(response.data.main.temp);
+  myCurrentFahrenheit = Math.round(response.data.main.temp);
 
   displayForecast();
 
-  let myCity = response.data.name;
   let city = document.querySelector("#current-city");
   city.innerHTML = `${myCity}`;
-
-  let myTemp = Math.round(response.data.main.temp);
   let temperature = document.querySelector("#current-temp");
   temperature.innerHTML = `${myTemp}`;
-
-  let myWeatherDescription = response.data.weather[0].description;
   let weather = document.querySelector("#current-weather");
   weather.innerHTML = `${myWeatherDescription}`;
-
-  let myWind = response.data.wind.speed;
   let wind = document.querySelector("#current-wind");
   wind.innerHTML = `Wind: ${myWind}mph`;
-
-  let myHumidity = response.data.main.humidity;
   let humidity = document.querySelector("#current-humidity");
   humidity.innerHTML = `Humidity: ${myHumidity}%`;
 
-  let myMax = document.querySelector("#current-max");
-  myMax.innerHTML = `Max: ${myTempMax}°`;
-
-  let myMin = document.querySelector("#current-min");
-  myMin.innerHTML = `Min: ${myTempMin}°`;
-
-  let feelsLike = document.querySelector("#current-feels-like");
-  feelsLike.innerHTML = `Feels Like: ${myFeelsLike}°`;
-
-  let myWeatherMain = response.data.weather[0].main;
-  let newImage = document.querySelector("#img-current-temp");
   if (`${myWeatherMain}` === "Clear") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/sunny.png";
   }
   if (`${myWeatherMain}` === "Clouds") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/cloud.png";
   }
   if (`${myWeatherMain}` === "Rain") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/sub-cloud-rain.png";
   }
   if (`${myWeatherMain}` === "Snow") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/snow.png";
   }
   if (`${myWeatherMain}` === "Thunderstorm") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/lightning-storm.png";
   }
   if (`${myWeatherMain}` === "Drizzle") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/sub-cloud-rain.png";
-  }
+  } else newImage.src = "images/sunny.png";
 }
 
 function showPosition(position) {
   let myLatitude = position.coords.latitude;
   let myLongitude = position.coords.longitude;
 
-  let apiUrlMyWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${myLatitude}&lon=${myLongitude}&units=imperial&appid=${apiKey}`;
-  console.log(apiUrlMyWeather);
-  axios.get(apiUrlMyWeather).then(showMyWeather);
+  let apiUrlCurrentF = `https://api.openweathermap.org/data/2.5/weather?lat=${myLatitude}&lon=${myLongitude}&units=imperial&appid=${apiKey}`;
+  console.log(apiUrlCurrentF);
+  axios.get(apiUrlCurrentF).then(showCurrentF);
 }
 
 function getPosition() {
   navigator.geolocation.getCurrentPosition(showPosition);
 }
 
-myFahrenheit = null;
+myCurrentFahrenheit = null;
 
 //get current location weather on load
 navigator.geolocation.getCurrentPosition(showPosition);
@@ -123,7 +115,7 @@ navigator.geolocation.getCurrentPosition(showPosition);
 //convert to celcius
 function showMyCelsius(event) {
   event.preventDefault();
-  let myTemp = Math.round((myFahrenheit - 32) / 1.8);
+  let myTemp = Math.round((myCurrentFahrenheit - 32) / 1.8);
 
   let temperatureElement = document.querySelector("#current-temp");
   temperatureElement.innerHTML = `${myTemp}`;
@@ -136,58 +128,53 @@ function getForecast(coordinates) {
 
 //display weather for searched city .... rename for "searched weather"
 function showTemperature(response) {
-  let showTemp = Math.round(response.data.main.temp);
+  let temp = Math.round(response.data.main.temp);
+  let WeatherDescription = response.data.weather[0].description;
+  let WeatherMain = response.data.weather[0].main;
   let temperatureElement = document.querySelector("#current-temp");
-  temperatureElement.innerHTML = `${showTemp}`;
-
-  let weatherDescription = response.data.weather[0].description;
   let weather = document.querySelector("#current-weather");
-  weather.innerHTML = `${weatherDescription}`;
+  let Humidity = response.data.main.humidity;
+  let Wind = response.data.wind.speed;
+  let TempMax = response.data.main.temp_max;
+  let TempMin = response.data.main.temp_min;
+  let FeelsLike = response.data.main.feels_like;
 
   displayForecast();
 
   showFahrenheit = Math.round(response.data.main.temp);
 
-  let showWind = response.data.wind.speed;
+  temperatureElement.innerHTML = `${temp}`;
+  weather.innerHTML = `${WeatherDescription}`;
+
   let wind = document.querySelector("#current-wind");
-  wind.innerHTML = `Wind: ${showWind}mph`;
-
-  let showHumidity = response.data.main.humidity;
+  wind.innerHTML = `Wind: ${Wind}mph`;
   let humidity = document.querySelector("#current-humidity");
-  humidity.innerHTML = `Humidity: ${showHumidity}%`;
+  humidity.innerHTML = `Humidity: ${Humidity}%`;
 
-  let showFeelsLike = Math.round(response.data.main.feels_like);
-  let feelsLike = document.querySelector("#current-feels-like");
-  feelsLike.innerHTML = `Feels Like: ${showFeelsLike}°`;
-
-  let showTempMax = Math.round(response.data.main.temp_max);
-  let tempMax = document.querySelector("#current-max");
-  tempMax.innerHTML = `Max: ${showTempMax}°`;
-
-  let showTempMin = Math.round(response.data.main.temp_min);
-  let tempMin = document.querySelector("#current-min");
-  tempMin.innerHTML = `Min: ${showTempMin}°`;
-
-  let weatherMain = response.data.weather[0].main;
-  let newImage = document.querySelector("#img-current-temp");
-  if (`${weatherMain}` === "Clear") {
+  if (`${WeatherMain}` === "Clear") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/sunny.png";
   }
-  if (`${weatherMain}` === "Clouds") {
+  if (`${WeatherMain}` === "Clouds") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/cloud.png";
   }
-  if (`${weatherMain}` === "Rain") {
+  if (`${WeatherMain}` === "Rain") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/sub-cloud-rain.png";
   }
-  if (`${weatherMain}` === "Snow") {
+  if (`${WeatherMain}` === "Snow") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/snow.png";
   }
-  if (`${weatherMain}` === "Thunderstorm") {
+  if (`${WeatherMain}` === "Thunderstorm") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/lightning-storm.png";
   }
-  if (`${weatherMain}` === "Drizzle") {
+  if (`${WeatherMain}` === "Drizzle") {
+    let newImage = document.querySelector("#img-current-temp");
     newImage.src = "images/sub-cloud-rain.png";
-  }
+  } else newImage.src = "images/sunny.png";
 
   getForecast(response.data.coord);
 }
@@ -200,9 +187,9 @@ function search(event) {
     let newCity = document.querySelector("#current-city");
     newCity.innerHTML = `${searchInput.value}`;
 
-    let apiUrlSearch = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput.value}&units=imperial&appid=${apiKey}`;
-    console.log(apiUrlSearch);
-    axios.get(apiUrlSearch).then(showTemperature);
+    let apiUrlF = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput.value}&units=imperial&appid=${apiKey}`;
+    console.log(apiUrlF);
+    axios.get(apiUrlF).then(showTemperature);
   }
 }
 

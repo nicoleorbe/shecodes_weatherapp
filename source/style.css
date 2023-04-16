@@ -110,14 +110,10 @@ footer span {
   text-transform: capitalize;
 }
 
-.current-humidity,
-.current-wind {
-  font-size: 12px;
-  color: var(--dark-turquoise);
-}
-
 .hum-wind {
   text-align: left;
+  font-size: 12px;
+  color: var(--dark-turquoise);
 }
 
 .toggle-options a {
