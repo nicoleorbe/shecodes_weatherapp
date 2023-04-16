@@ -5,16 +5,8 @@ function resetPage() {
 let apiKey = "063f2d8d4205c00d9e83991e6beade04";
 
 function displayForecast() {
-  let forecast = document.querySelector("#forecast");
-
-  forecast.innerHTML = `<div class="row align-items-start">
-          <div class="col next-one">
-            <a href="#" id="next-one">WED</a>
-            <br />
-            <img src="images/sun-cloud.png" alt="" class="img-next" />
-            <div>72° / 54°</div>
-          </div>
-        </div>`;
+  //let forecast = document.querySelector("#forecast");
+  //forecast.innerHTML = "";
 }
 
 //display weather for current city.... rename for "my weather"

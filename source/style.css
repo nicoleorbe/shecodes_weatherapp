@@ -133,9 +133,14 @@ footer span {
   text-decoration: underline;
 }
 
-.next-five-days a {
-  text-decoration: none;
-  color: var(--bs-gray-dark);
+.forecast-date {
+  text-transform: uppercase;
+}
+
+.forecast-image {
+  width: 50px;
+  height: 50px;
+  object-fit: scale-down;
 }
 
 .img-current-temp {
@@ -147,11 +152,6 @@ footer span {
   margin: 10px auto;
 }
 
-.img-next {
-  width: 50px;
-  height: 50px;
-  object-fit: scale-down;
-}
 .span-footer-name {
   background: linear-gradient(-225deg, #ff057c 0%, #8d0b93 50%, #321575 100%);
   color: white;
