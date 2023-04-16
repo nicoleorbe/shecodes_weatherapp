@@ -1,3 +1,7 @@
+function resetPage() {
+  location.reload();
+}
+
 let apiKey = "063f2d8d4205c00d9e83991e6beade04";
 
 //display weather for current city
@@ -42,8 +46,8 @@ myCurrentFahrenheit = null;
 navigator.geolocation.getCurrentPosition(showPosition);
 
 //switch to current location weather
-let currentButton = document.querySelector("#button-current");
-currentButton.addEventListener("click", getPosition);
+//let currentButton = document.querySelector("#button-current");
+//currentButton.addEventListener("click", getPosition);
 
 //convert to celcius
 function showMyCelsius(event) {
