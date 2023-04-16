@@ -20,11 +20,36 @@ function showCurrentF(response) {
   let temperature = document.querySelector("#current-temp");
   temperature.innerHTML = `${myTemp}`;
   let weather = document.querySelector("#current-weather");
-  weather.innerHTML = `${myWeatherMain}`;
+  weather.innerHTML = `${myWeatherDescription}`;
   let wind = document.querySelector("#current-wind");
   wind.innerHTML = `Wind: ${myWind}mph`;
   let humidity = document.querySelector("#current-humidity");
   humidity.innerHTML = `Humidity: ${myHumidity}%`;
+
+  if (`${myWeatherMain}` === "Clear") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/sunny.png";
+  }
+  if (`${myWeatherMain}` === "Clouds") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/cloud.png";
+  }
+  if (`${myWeatherMain}` === "Rain") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/sub-cloud-rain.png";
+  }
+  if (`${myWeatherMain}` === "Snow") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/snow.png";
+  }
+  if (`${myWeatherMain}` === "Thunderstorm") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/lightning-storm.png";
+  }
+  if (`${myWeatherMain}` === "Drizzle") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/sub-cloud-rain.png";
+  }
 }
 
 function showPosition(position) {
@@ -83,6 +108,31 @@ function showTemperature(response) {
   wind.innerHTML = `Wind: ${Wind}mph`;
   let humidity = document.querySelector("#current-humidity");
   humidity.innerHTML = `Humidity: ${Humidity}%`;
+
+  if (`${WeatherMain}` === "Clear") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/sunny.png";
+  }
+  if (`${WeatherMain}` === "Clouds") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/cloud.png";
+  }
+  if (`${WeatherMain}` === "Rain") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/sub-cloud-rain.png";
+  }
+  if (`${WeatherMain}` === "Snow") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/snow.png";
+  }
+  if (`${WeatherMain}` === "Thunderstorm") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/lightning-storm.png";
+  }
+  if (`${WeatherMain}` === "Drizzle") {
+    let newImage = document.querySelector("#img-current-temp");
+    newImage.src = "images/sub-cloud-rain.png";
+  }
 }
 
 function search(event) {
