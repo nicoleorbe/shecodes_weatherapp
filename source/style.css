@@ -36,13 +36,13 @@ footer span {
   border: 1px solid var(--dark-turquoise);
 }
 
-#button-current {
+#button-reset {
   background-color: var(--dark-turquoise);
   color: white;
   border: 1px solid var(--dark-turquoise);
 }
 
-#button-current:hover {
+#button-reset:hover {
   background-color: var(--sun-yellow);
   color: var(--dark-turquoise);
   border: 1px solid var(--sun-yellow);
