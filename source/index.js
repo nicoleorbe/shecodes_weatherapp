@@ -4,7 +4,20 @@ function resetPage() {
 
 let apiKey = "063f2d8d4205c00d9e83991e6beade04";
 
-//display weather for current city
+function displayForecast() {
+  let forecast = document.querySelector("#forecast");
+
+  forecast.innerHTML = `<div class="row align-items-start">
+          <div class="col next-one">
+            <a href="#" id="next-one">WED</a>
+            <br />
+            <img src="images/sun-cloud.png" alt="" class="img-next" />
+            <div>72° / 54°</div>
+          </div>
+        </div>`;
+}
+
+//display weather for current city.... rename for "my weather"
 function showCurrentF(response) {
   let myTemp = Math.round(response.data.main.temp);
   let myCity = response.data.name;
@@ -14,6 +27,8 @@ function showCurrentF(response) {
   let myWind = response.data.wind.speed;
 
   myCurrentFahrenheit = Math.round(response.data.main.temp);
+
+  displayForecast();
 
   let city = document.querySelector("#current-city");
   city.innerHTML = `${myCity}`;
@@ -70,10 +85,6 @@ myCurrentFahrenheit = null;
 //get current location weather on load
 navigator.geolocation.getCurrentPosition(showPosition);
 
-//switch to current location weather
-//let currentButton = document.querySelector("#button-current");
-//currentButton.addEventListener("click", getPosition);
-
 //convert to celcius
 function showMyCelsius(event) {
   event.preventDefault();
@@ -83,13 +94,7 @@ function showMyCelsius(event) {
   temperatureElement.innerHTML = `${myTemp}`;
 }
 
-//let displayMyTempC = document.querySelector("#degree-C");
-//displayMyTempC.addEventListener("click", showMyCelsius);
-
-//let showMyFahrenheit = document.querySelector("#degree-F");
-//showMyFahrenheit.addEventListener("click", getPosition);
-
-//display weather for searched city
+//display weather for searched city .... rename for "searched weather"
 function showTemperature(response) {
   let temp = Math.round(response.data.main.temp);
   let WeatherDescription = response.data.weather[0].description;
@@ -99,6 +104,7 @@ function showTemperature(response) {
   let Humidity = response.data.main.humidity;
   let Wind = response.data.wind.speed;
 
+  displayForecast();
   showFahrenheit = Math.round(response.data.main.temp);
 
   temperatureElement.innerHTML = `${temp}`;
