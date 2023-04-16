@@ -5,8 +5,40 @@ function resetPage() {
 let apiKey = "063f2d8d4205c00d9e83991e6beade04";
 
 function displayForecast() {
-  //let forecast = document.querySelector("#forecast");
-  //forecast.innerHTML = "";
+  let forecast = document.querySelector("#forecast");
+
+  let forecastHTML = `<div class="row">`;
+  let days = ["Thur", "Fri", "Sat"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `       <div class="col-2">
+              <div class="forecast-date">${day}</div>
+              <img
+                src="images/sun-cloud.png"
+                alt=""
+                class="forecast-image"
+                id="forecast-image"
+              />
+              <div class="forecast-temperature">
+                <span
+                  class="forecast-temperature-max"
+                  id="forecast-temperature-max"
+                  ><strong>72°</strong></span
+                >
+                /
+                <span
+                  class="forecast-temperature-min"
+                  id="forecast-temperature-min"
+                  >54°</span
+                >
+              </div>
+            </div>
+          `;
+    forecaseHTML = forecastHTML + `</div>`;
+  });
+
+  forecast.innerHTML = forecastHTML;
 }
 
 //display weather for current city.... rename for "my weather"
