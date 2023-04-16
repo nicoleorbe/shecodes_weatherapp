@@ -43,12 +43,7 @@ function displayForecast() {
 
 //display weather for current city.... rename for "my weather"
 function showMyWeather(response) {
-  let myTempMax = Math.round(response.data.main.temp_max);
-  let myTempMin = Math.round(response.data.main.temp_min);
-  let myFeelsLike = Math.round(response.data.main.feels_like);
-
   myFahrenheit = Math.round(response.data.main.temp);
-
   displayForecast();
 
   let myCity = response.data.name;
@@ -71,12 +66,15 @@ function showMyWeather(response) {
   let humidity = document.querySelector("#current-humidity");
   humidity.innerHTML = `Humidity: ${myHumidity}%`;
 
+  let myTempMax = Math.round(response.data.main.temp_max);
   let myMax = document.querySelector("#current-max");
   myMax.innerHTML = `Max: ${myTempMax}°`;
 
+  let myTempMin = Math.round(response.data.main.temp_min);
   let myMin = document.querySelector("#current-min");
   myMin.innerHTML = `Min: ${myTempMin}°`;
 
+  let myFeelsLike = Math.round(response.data.main.feels_like);
   let feelsLike = document.querySelector("#current-feels-like");
   feelsLike.innerHTML = `Feels Like: ${myFeelsLike}°`;
 
@@ -100,6 +98,31 @@ function showMyWeather(response) {
   if (`${myWeatherMain}` === "Drizzle") {
     newImage.src = "images/sub-cloud-rain.png";
   }
+
+  let myEpochTime = response.data.dt;
+  let myTime = new Date(myEpochTime * 1000);
+  let myHours = new Date(myTime).getHours();
+  let body = document.querySelector("body");
+  let footerColor = document.querySelector("footer");
+  let gradient;
+
+  if (`${myHours}` >= 21 && `${myHours}` <= 4) {
+    gradient = "linear-gradient(to top, #09203f 0%, #537895 100%)";
+    footerColor.classList.add("footer-dark"); //evening
+  } else if (`${myHours}` >= 5 && `${myHours}` <= 7) {
+    gradient =
+      "linear-gradient(75.2deg, rgb(41, 196, 255) -2.5%, rgb(255, 158, 211) 55%, rgb(255, 182, 138) 102.3%)"; //sunrise
+  } else if (`${myHours}` >= 17 && `${myHours}` <= 20) {
+    gradient =
+      "linear-gradient(75.2deg, rgb(255, 182, 138) 2.5%, rgb(255, 158, 211) 44.8%, rgb(41, 196, 255) 102.3%)"; //sunset
+  } else if (`${myWeatherMain}` !== "Clear") {
+    gradient = "linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%)"; //daytime cloud/rain
+  } else {
+    gradient =
+      "linear-gradient(109.6deg, rgb(204, 228, 247) 11.2%, rgb(237, 246, 250) 100.2%)"; //daytime clear
+  }
+
+  body.style.background = gradient;
 }
 
 function showPosition(position) {
@@ -177,7 +200,7 @@ function showTemperature(response) {
     newImage.src = "images/cloud.png";
   }
   if (`${weatherMain}` === "Rain") {
-    newImage.src = "images/sub-cloud-rain.png";
+    newImage.src = "images/sun-cloud-rain.png";
   }
   if (`${weatherMain}` === "Snow") {
     newImage.src = "images/snow.png";
@@ -186,7 +209,7 @@ function showTemperature(response) {
     newImage.src = "images/lightning-storm.png";
   }
   if (`${weatherMain}` === "Drizzle") {
-    newImage.src = "images/sub-cloud-rain.png";
+    newImage.src = "images/sun-cloud-rain.png";
   }
 
   getForecast(response.data.coord);
