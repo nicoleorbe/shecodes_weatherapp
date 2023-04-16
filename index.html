@@ -64,23 +64,22 @@
                 id="img-current-temp"
               />
             </div>
-            <div class="col-2 current-city-temp">
-              <p class="current-city" id="current-city"></p>
-              <p class="current-temp" id="current-temp"></p>
-            </div>
-            <div
-              class="col-3 d-flex align-items-start degree-toggle"
-              id="degree-toggle"
-            >
-              <span class="degree-symbol" id="degree-F"
-                ><a href="#">°F</a></span
-              >
-              <span>|</span>
-              <span class="degree-symbol" id="degree-C"
-                ><a href="#">°C</a></span
+            <div class="col-3 current-city-temp float-left">
+              <span class="current-city" id="current-city"></span>
+              <span class="current-temp" id="current-temp"></span>
+              <span class="degree-symbol"
+                ><a href="#" id="degree-F">°F </a>
+                |
+                <a href="#" id="degree-C"> °C</a></span
               >
             </div>
-            <div class="col-5 weather-date">
+            <div class="col-3 hum-wind">
+              <span class="current-humidity" id="current-humidity"></span>
+              <br />
+              <span class="current-wind" id="current-wind"></span>
+            </div>
+
+            <div class="col-4 weather-date">
               <h1 class="weather-title">Weather</h1>
               <p class="current-datetime" id="current-datetime"></p>
               <p class="current-weather" id="current-weather"></p>
