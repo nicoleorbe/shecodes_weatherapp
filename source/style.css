@@ -137,6 +137,10 @@ footer span {
   text-decoration: underline;
 }
 
+.forecast {
+  text-align: center;
+}
+
 .forecast-date {
   text-transform: uppercase;
 }
