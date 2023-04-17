@@ -141,30 +141,14 @@ function showTemperature(response) {
   let tempMin = document.querySelector("#current-min");
   tempMin.innerHTML = `Min: ${showTempMin}°`;
 
-  let weatherMain = response.data.weather[0].main;
-  let newImage = document.querySelector("#img-current-temp");
-  if (`${weatherMain}` === "Clouds") {
-    newImage.src = "images/cloud.png";
-  } else if (`${weatherMain}` === "Rain") {
-    newImage.src = "images/sun-cloud-rain.png";
-  } else if (`${weatherMain}` === "Snow") {
-    newImage.src = "images/snow.png";
-  } else if (`${weatherMain}` === "Thunderstorm") {
-    newImage.src = "images/lightning-storm.png";
-  } else if (`${weatherMain}` === "Drizzle") {
-    newImage.src = "images/sun-cloud-rain.png";
-  } else {
-    newImage.src = "images/sunny.png";
-  }
-
   let myEpochTime = response.data.dt;
   let myTime = new Date(myEpochTime * 1000);
   let myHours = new Date(myTime).getHours();
   let body = document.querySelector("body");
   let footerColor = document.querySelector("footer");
   let gradient;
-
-  if (`${myHours}` >= 21 && `${myHours}` <= 4) {
+  console.log(myHours);
+  if (`${myHours}` >= 21 || `${myHours}` <= 4) {
     gradient = "linear-gradient(to top, #09203f 0%, #537895 100%)";
     footerColor.classList.remove("footer");
     footerColor.classList.add("footer-dark"); //evening
@@ -180,9 +164,33 @@ function showTemperature(response) {
     gradient =
       "linear-gradient(109.6deg, rgb(204, 228, 247) 11.2%, rgb(237, 246, 250) 100.2%)"; //daytime clear
   }
+  console.log(gradient);
 
   body.style.background = gradient;
 
+  let weatherMain = response.data.weather[0].main;
+  let newImage = document.querySelector("#img-current-temp");
+  if (
+    (`${myHours}` >= 21 || `${myHours}` <= 4) &&
+    `${weatherMain}` === "Clouds"
+  ) {
+    newImage.src = "images/cloudy-evening.png";
+  } else if (`${weatherMain}` === "Clouds") {
+    newImage.src = "images/cloud.png";
+  } else if (`${weatherMain}` === "Rain") {
+    newImage.src = "images/sun-cloud-rain.png";
+  } else if (`${weatherMain}` === "Snow") {
+    newImage.src = "images/snow.png";
+  } else if (`${weatherMain}` === "Thunderstorm") {
+    newImage.src = "images/lightning-storm.png";
+  } else if (`${weatherMain}` === "Drizzle") {
+    newImage.src = "images/sun-cloud-rain.png";
+  } else if (`${myHours}` >= 21 || `${myHours}` <= 4) {
+    newImage.src = "images/clear-evening.png";
+  } else {
+    newImage.src = "images/sunny.png";
+  }
+  console.log(newImage);
   getForecast(response.data.coord);
 }
 
