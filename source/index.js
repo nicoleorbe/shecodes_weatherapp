@@ -42,7 +42,6 @@ function formatEpoch(timestamp) {
 function displayForecast(response) {
   let forecast = response.data.daily;
   let forecastElement = document.querySelector("#forecast");
-  console.log(response.data.daily);
 
   let forecastHTML = `<div class="row">`;
   //let days = ["Thur", "Fri", "Sat"];
@@ -101,14 +100,12 @@ function getForecast(coordinates) {
   let apiForecastURL = "281450ec88936f4fa8ee9864682b49a0";
 
   let apiSearchURLForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&appid=${apiForecastURL}`;
-  console.log(apiSearchURLForecast);
   axios.get(apiSearchURLForecast).then(displayForecast);
 }
 
 //display weather for searched city .... rename for "searched weather"
 function showTemperature(response) {
   let showTemp = Math.round(response.data.main.temp);
-  console.log(showTemp);
   let temperatureElement = document.querySelector("#current-temp");
   temperatureElement.innerHTML = `${showTemp}`;
 
@@ -257,8 +254,6 @@ if (navigator.geolocation) {
     function (position) {
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
-      console.log(latitude);
-      console.log(longitude);
       let googleAPIKey = "AIzaSyC1wF-QTYLNhuk0nRvNj0S_cEsPiMkN0bI";
       fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${googleAPIKey}`
@@ -273,11 +268,9 @@ if (navigator.geolocation) {
             cityName = addressComponents[2].long_name;
           }
           if (cityName !== null) {
-            console.log(cityName);
             search(cityName);
           } else {
             // Handle undefined city name
-            console.log("City name is undefined");
             let defaultLocation = "New York";
             search(defaultLocation);
           }
