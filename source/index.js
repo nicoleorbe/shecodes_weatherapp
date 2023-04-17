@@ -49,8 +49,6 @@ function displayForecast(response) {
   forecast.forEach(function (forecastDay, index) {
     if (index < 7 && index > 0) {
       let weather = forecastDay.weather[0].main;
-      console.log(weather);
-
       if (weather === "Clouds") {
         image = "images/cloud.png";
       } else if (weather === "Rain") {
@@ -100,7 +98,6 @@ function displayForecast(response) {
 }
 
 function getForecast(coordinates) {
-  console.log(coordinates);
   let apiForecastURL = "281450ec88936f4fa8ee9864682b49a0";
 
   let apiSearchURLForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&appid=${apiForecastURL}`;
@@ -147,7 +144,7 @@ function showTemperature(response) {
   let body = document.querySelector("body");
   let footerColor = document.querySelector("footer");
   let gradient;
-  console.log(myHours);
+
   if (`${myHours}` >= 21 || `${myHours}` <= 4) {
     gradient = "linear-gradient(to top, #09203f 0%, #537895 100%)";
     footerColor.classList.remove("footer");
@@ -164,7 +161,6 @@ function showTemperature(response) {
     gradient =
       "linear-gradient(109.6deg, rgb(204, 228, 247) 11.2%, rgb(237, 246, 250) 100.2%)"; //daytime clear
   }
-  console.log(gradient);
 
   body.style.background = gradient;
 
@@ -190,7 +186,7 @@ function showTemperature(response) {
   } else {
     newImage.src = "images/sunny.png";
   }
-  console.log(newImage);
+
   getForecast(response.data.coord);
 }
 
@@ -212,7 +208,7 @@ function search(city) {
 function citySubmit(event) {
   event.preventDefault();
   let searchInput = document.querySelector("#search-new-city");
-  console.log(searchInput);
+
   search(searchInput.value);
 }
 
@@ -255,23 +251,6 @@ displayTempF.addEventListener("click", displayFahrenheit);
 let displayTempC = document.querySelector("#degree-C");
 displayTempC.addEventListener("click", displayCelsius);
 
-// navigator.geolocation.getCurrentPosition(function (position) {
-//   let latitude = position.coords.latitude;
-//   let longitude = position.coords.longitude;
-
-//   fetch(
-//     `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
-//   )
-//     .then(function (response) {
-//       return response.json();
-//     })
-//     .then(function (data) {
-//       let cityName = data.address.city;
-//       console.log(cityName);
-//       search(cityName);
-//     });
-// });
-
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
     function (position) {
@@ -287,11 +266,9 @@ if (navigator.geolocation) {
         .then(function (data) {
           let cityName = data.address.city;
           if (typeof cityName !== "undefined") {
-            console.log(cityName);
             search(cityName);
           } else {
             // Handle undefined city name
-            console.log("City name is undefined");
             let defaultLocation = "New York";
             search(defaultLocation);
           }
@@ -299,16 +276,12 @@ if (navigator.geolocation) {
     },
     function (error) {
       // Handle geolocation error
-      console.log("Geolocation error:", error);
-      // Use a default location as a fallback
       let defaultLocation = "New York";
       search(defaultLocation);
     }
   );
 } else {
   // Geolocation API is not supported
-  console.log("Geolocation API is not supported");
-  // Use a default location as a fallback
   let defaultLocation = "New York";
   search(defaultLocation);
 }

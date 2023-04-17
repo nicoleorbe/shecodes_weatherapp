@@ -91,6 +91,7 @@ footer span {
 .degree-symbol {
   display: block;
   text-align: left;
+  font-size: 0.95rem;
 }
 
 .degree-symbol a {
