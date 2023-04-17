@@ -142,6 +142,7 @@ function showTemperature(response) {
   let footerColor = document.querySelector("footer");
   let gradient;
 
+  let weatherMain = response.data.weather[0].main;
   if (`${myHours}` >= 21 || `${myHours}` <= 4) {
     gradient = "linear-gradient(to top, #09203f 0%, #537895 100%)";
     footerColor.classList.remove("footer");
@@ -161,7 +162,6 @@ function showTemperature(response) {
 
   body.style.background = gradient;
 
-  let weatherMain = response.data.weather[0].main;
   let newImage = document.querySelector("#img-current-temp");
   if (
     (`${myHours}` >= 21 || `${myHours}` <= 4) &&
@@ -249,24 +249,65 @@ displayTempF.addEventListener("click", displayFahrenheit);
 let displayTempC = document.querySelector("#degree-C");
 displayTempC.addEventListener("click", displayCelsius);
 
+// if (navigator.geolocation) {
+//   navigator.geolocation.getCurrentPosition(
+//     function (position) {
+//       let latitude = position.coords.latitude;
+//       let longitude = position.coords.longitude;
+//       let googleAPIKey = "AIzaSyC1wF-QTYLNhuk0nRvNj0S_cEsPiMkN0bI";
+//       fetch(
+//         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${googleAPIKey}`
+//       )
+//         .then(function (response) {
+//           return response.json();
+//         })
+//         .then(function (data) {
+//           let cityName = null;
+//           let addressComponents = data.results[0].address_components;
+//           if (addressComponents.length >= 4) {
+//             cityName = addressComponents[2].long_name;
+//           }
+//           if (cityName !== null) {
+//             search(cityName);
+//           } else {
+//             // Handle undefined city name
+//             let defaultLocation = "New York";
+//             search(defaultLocation);
+//           }
+//         });
+//     },
+//     function (error) {
+//       // Handle geolocation error
+//       console.log("Geolocation error:", error);
+//       let defaultLocation = "New York";
+//       search(defaultLocation);
+//     }
+//   );
+// } else {
+//   // Geolocation API is not supported
+//   console.log("Geolocation API is not supported");
+//   let defaultLocation = "New York";
+//   search(defaultLocation);
+// }
+
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
     function (position) {
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
-      let googleAPIKey = "AIzaSyC1wF-QTYLNhuk0nRvNj0S_cEsPiMkN0bI";
-      fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${googleAPIKey}`
-      )
+      console.log(latitude);
+      console.log(longitude);
+      let geoAPIKey = "e9d4cfe75eda49729ab3361d039e85a9";
+      fetch(`https://api.ipgeolocation.io/ipgeo?apiKey=${geoAPIKey}`)
         .then(function (response) {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
           return response.json();
         })
         .then(function (data) {
-          let cityName = null;
-          let addressComponents = data.results[0].address_components;
-          if (addressComponents.length >= 4) {
-            cityName = addressComponents[2].long_name;
-          }
+          let cityName = data.city;
+
           if (cityName !== null) {
             search(cityName);
           } else {
@@ -274,6 +315,11 @@ if (navigator.geolocation) {
             let defaultLocation = "New York";
             search(defaultLocation);
           }
+        })
+        .catch(function (error) {
+          console.error("Error fetching data:", error);
+          let defaultLocation = "New York";
+          search(defaultLocation);
         });
     },
     function (error) {
