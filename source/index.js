@@ -256,9 +256,11 @@ if (navigator.geolocation) {
     function (position) {
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
-
+      let googleAPIKey = "AIzaSyC1wF-QTYLNhuk0nRvNj0S_cEsPiMkN0bI";
       fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+        //`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+        //`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_API_KEY`
+        `https://plus.codes/api?address=${latitude},${longitude}&ekey=${googleAPIKey}&email=nicole.saraceni@gmail.com`
       )
         .then(function (response) {
           return response.json();
