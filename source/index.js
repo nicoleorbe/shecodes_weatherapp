@@ -266,7 +266,7 @@ if (navigator.geolocation) {
           return response.json();
         })
         .then(function (data) {
-          let cityName = data.address.city;
+          let cityName = data.plus_code.locality.local_address;
           if (typeof cityName !== "undefined") {
             search(cityName);
           } else {
