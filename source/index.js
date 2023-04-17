@@ -108,7 +108,7 @@ function getForecast(coordinates) {
 //display weather for searched city .... rename for "searched weather"
 function showTemperature(response) {
   let showTemp = Math.round(response.data.main.temp);
-
+  console.log(showTemp);
   let temperatureElement = document.querySelector("#current-temp");
   temperatureElement.innerHTML = `${showTemp}`;
 
@@ -193,7 +193,8 @@ function showTemperature(response) {
 function search(city) {
   if (city) {
     let newCity = document.querySelector("#current-city");
-    newCity.innerHTML = `${city}`;
+    let strTrim = `${city}`;
+    newCity.innerHTML = strTrim.trim();
 
     let apiUrlSearch = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
     axios.get(apiUrlSearch).then(showTemperature);
@@ -256,21 +257,27 @@ if (navigator.geolocation) {
     function (position) {
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
+      console.log(latitude);
+      console.log(longitude);
       let googleAPIKey = "AIzaSyC1wF-QTYLNhuk0nRvNj0S_cEsPiMkN0bI";
       fetch(
-        //`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
-        //`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_API_KEY`
-        `https://plus.codes/api?address=${latitude},${longitude}&ekey=${googleAPIKey}&email=nicole.saraceni@gmail.com`
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${googleAPIKey}`
       )
         .then(function (response) {
           return response.json();
         })
         .then(function (data) {
-          let cityName = data.plus_code.locality.local_address;
-          if (typeof cityName !== "undefined") {
+          let cityName = null;
+          let addressComponents = data.results[0].address_components;
+          if (addressComponents.length >= 4) {
+            cityName = addressComponents[2].long_name;
+          }
+          if (cityName !== null) {
+            console.log(cityName);
             search(cityName);
           } else {
             // Handle undefined city name
+            console.log("City name is undefined");
             let defaultLocation = "New York";
             search(defaultLocation);
           }
@@ -278,12 +285,14 @@ if (navigator.geolocation) {
     },
     function (error) {
       // Handle geolocation error
+      console.log("Geolocation error:", error);
       let defaultLocation = "New York";
       search(defaultLocation);
     }
   );
 } else {
   // Geolocation API is not supported
+  console.log("Geolocation API is not supported");
   let defaultLocation = "New York";
   search(defaultLocation);
 }
