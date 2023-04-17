@@ -70,6 +70,10 @@ footer span {
   max-width: 800px;
 }
 
+.weather-detail-container {
+  margin-top: 30px;
+}
+
 .current-city {
   display: block;
   text-align: left;
@@ -118,7 +122,7 @@ footer span {
   font-weight: 500;
 }
 
-.hum-wind {
+.weather-details {
   text-align: left;
   font-size: 12px;
   color: var(--dark-turquoise);
@@ -139,6 +143,7 @@ footer span {
 
 .forecast {
   text-align: center;
+  margin-top: 30px;
 }
 
 .forecast-date {

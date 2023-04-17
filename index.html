@@ -53,7 +53,7 @@
         </form>
 
         <!-- second row -->
-        <div class="container">
+        <div class="weather-detail-container">
           <div class="row">
             <div
               class="col-3 d-flex flex-column align-items-center justify-content-center"
@@ -78,7 +78,7 @@
               >
             </div>
 
-            <div class="col-2 hum-wind">
+            <div class="col-2 weather-details">
               <span class="current-feels-like" id="current-feels-like"></span>
               <br />
               <span class="current-max" id="current-max"></span>
@@ -96,34 +96,7 @@
             </div>
           </div>
         </div>
-        <!-- third row / toggle options -->
-        <div class="container text-center">
-          <div class="row align-items-start toggle-options">
-            <div class="col-2 toggle-temperature">
-              <a href="#">Temperature</a>
-            </div>
-            <div class="col-2 toggle-precipitation">
-              <a href="#">Precipation</a>
-            </div>
-            <div class="col-2 toggle-wind">
-              <a href="#">Wind</a>
-            </div>
-          </div>
-        </div>
-        <!-- fourth row / temp graph -->
-        <canvas
-          class="my-4 w-100"
-          id="myChart"
-          width="600"
-          height="200"
-          style="
-            display: block;
-            box-sizing: border-box;
-            height: 200px;
-            width: 600px;
-          "
-        ></canvas>
-        <!-- fifth row / next 5 days -->
+        <!-- third row / next 6 days -->
         <div class="forecast" id="forecast"></div>
       </div>
       <footer class="footer">
