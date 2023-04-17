@@ -94,6 +94,10 @@ footer span {
   color: var(--bs-heading-color, inherit);
 }
 
+.active {
+  font-weight: 500;
+}
+
 .weather-title {
   text-align: right;
   margin-bottom: 0;

@@ -1,7 +1,3 @@
-function resetPage() {
-  location.reload();
-}
-
 let apiKey = "91f6bf18ce54b4e6a35e4e6af54b2317";
 
 //Display current day of week and current time
@@ -99,117 +95,10 @@ function displayForecast(response) {
   forecastElement.innerHTML = forecastHTML;
 }
 
-//display weather for current city.... rename for "my weather"
-function showMyWeather(response) {
-  myFahrenheit = Math.round(response.data.main.temp);
-
-  let myCity = response.data.name;
-  let city = document.querySelector("#current-city");
-  city.innerHTML = `${myCity}`;
-
-  let myTemp = Math.round(response.data.main.temp);
-  let temperature = document.querySelector("#current-temp");
-  temperature.innerHTML = `${myTemp}`;
-
-  let myWeatherDescription = response.data.weather[0].description;
-  let weather = document.querySelector("#current-weather");
-  weather.innerHTML = `${myWeatherDescription}`;
-
-  let myWind = response.data.wind.speed;
-  let wind = document.querySelector("#current-wind");
-  wind.innerHTML = `Wind: ${myWind}mph`;
-
-  let myHumidity = response.data.main.humidity;
-  let humidity = document.querySelector("#current-humidity");
-  humidity.innerHTML = `Humidity: ${myHumidity}%`;
-
-  let myTempMax = Math.round(response.data.main.temp_max);
-  let myMax = document.querySelector("#current-max");
-  myMax.innerHTML = `Max: ${myTempMax}°`;
-
-  let myTempMin = Math.round(response.data.main.temp_min);
-  let myMin = document.querySelector("#current-min");
-  myMin.innerHTML = `Min: ${myTempMin}°`;
-
-  let myFeelsLike = Math.round(response.data.main.feels_like);
-  let feelsLike = document.querySelector("#current-feels-like");
-  feelsLike.innerHTML = `Feels Like: ${myFeelsLike}°`;
-
-  let myWeatherMain = response.data.weather[0].main;
-  let newImage = document.querySelector("#img-current-temp");
-  if (`${myWeatherMain}` === "Clouds") {
-    newImage.src = "images/cloud.png";
-  } else if (`${myWeatherMain}` === "Rain") {
-    newImage.src = "images/sub-cloud-rain.png";
-  } else if (`${myWeatherMain}` === "Snow") {
-    newImage.src = "images/snow.png";
-  } else if (`${myWeatherMain}` === "Thunderstorm") {
-    newImage.src = "images/lightning-storm.png";
-  } else if (`${myWeatherMain}` === "Drizzle") {
-    newImage.src = "images/sub-cloud-rain.png";
-  } else {
-    newImage.src = "images/sunny.png";
-  }
-
-  let myEpochTime = response.data.dt;
-  let myTime = new Date(myEpochTime * 1000);
-  let myHours = new Date(myTime).getHours();
-  let body = document.querySelector("body");
-  let footerColor = document.querySelector("footer");
-  let gradient;
-
-  if (`${myHours}` >= 21 && `${myHours}` <= 4) {
-    gradient = "linear-gradient(to top, #09203f 0%, #537895 100%)";
-    footerColor.classList.remove("footer");
-    footerColor.classList.add("footer-dark"); //evening
-  } else if (`${myHours}` >= 5 && `${myHours}` <= 7) {
-    gradient =
-      "linear-gradient(75.2deg, rgb(41, 196, 255) -2.5%, rgb(255, 158, 211) 55%, rgb(255, 182, 138) 102.3%)"; //sunrise
-  } else if (`${myHours}` >= 17 && `${myHours}` <= 20) {
-    gradient =
-      "linear-gradient(75.2deg, rgb(255, 182, 138) 2.5%, rgb(255, 158, 211) 44.8%, rgb(41, 196, 255) 102.3%)"; //sunset
-  } else if (`${myWeatherMain}` !== "Clear") {
-    gradient = "linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%)"; //daytime cloud/rain
-  } else {
-    gradient =
-      "linear-gradient(109.6deg, rgb(204, 228, 247) 11.2%, rgb(237, 246, 250) 100.2%)"; //daytime clear
-  }
-  body.style.background = gradient;
-
-  getForecast(response.data.coord);
-}
-
-function showPosition(position) {
-  let myLatitude = position.coords.latitude;
-  let myLongitude = position.coords.longitude;
-
-  let apiUrlMyWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${myLatitude}&lon=${myLongitude}&units=imperial&appid=${apiKey}`;
-  axios.get(apiUrlMyWeather).then(showMyWeather);
-}
-
-function getPosition() {
-  navigator.geolocation.getCurrentPosition(showPosition);
-}
-
-myFahrenheit = null;
-
-//get current location weather on load
-navigator.geolocation.getCurrentPosition(showPosition);
-
-//convert to celcius
-function showMyCelsius(event) {
-  event.preventDefault();
-  let myTemp = Math.round((myFahrenheit - 32) / 1.8);
-
-  let temperatureElement = document.querySelector("#current-temp");
-  temperatureElement.innerHTML = `${myTemp}`;
-}
-
 function getForecast(coordinates) {
   console.log(coordinates);
   let apiForecastURL = "281450ec88936f4fa8ee9864682b49a0";
 
-  //let apiSearchURLForecast = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lon}&cnt=5&appid=${apiKey}`;
   let apiSearchURLForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&appid=${apiForecastURL}`;
   console.log(apiSearchURLForecast);
   axios.get(apiSearchURLForecast).then(displayForecast);
@@ -218,6 +107,7 @@ function getForecast(coordinates) {
 //display weather for searched city .... rename for "searched weather"
 function showTemperature(response) {
   let showTemp = Math.round(response.data.main.temp);
+
   let temperatureElement = document.querySelector("#current-temp");
   temperatureElement.innerHTML = `${showTemp}`;
 
@@ -266,36 +156,84 @@ function showTemperature(response) {
   getForecast(response.data.coord);
 }
 
-function search(event) {
+function search(city) {
+  if (city) {
+    let newCity = document.querySelector("#current-city");
+    newCity.innerHTML = `${city}`;
+
+    let apiUrlSearch = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${apiKey}`;
+    axios.get(apiUrlSearch).then(showTemperature);
+
+    let celsiusLink = document.querySelector("#degree-C");
+    let fahrenheitLink = document.querySelector("#degree-F");
+    fahrenheitLink.classList.add("active");
+    celsiusLink.classList.remove("active");
+  }
+}
+
+function citySubmit(event) {
   event.preventDefault();
   let searchInput = document.querySelector("#search-new-city");
+  console.log(searchInput);
+  search(searchInput.value);
+}
 
-  if (searchInput.value) {
-    let newCity = document.querySelector("#current-city");
-    newCity.innerHTML = `${searchInput.value}`;
+//display Celsius when C° is selected
+function displayCelsius(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#current-temp");
 
-    let apiUrlSearch = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput.value}&units=imperial&appid=${apiKey}`;
-    axios.get(apiUrlSearch).then(showTemperature);
-  }
+  let myTemp = Math.round((showFahrenheit - 32) / 1.8);
+
+  let celsiusLink = document.querySelector("#degree-C");
+  let fahrenheitLink = document.querySelector("#degree-F");
+  fahrenheitLink.classList.remove("active");
+  celsiusLink.classList.add("active");
+
+  temperatureElement.innerHTML = `${myTemp}`;
+}
+
+//display Fahrenheit when F° is selected
+function displayFahrenheit(event) {
+  event.preventDefault();
+  let temperatureElement = document.querySelector("#current-temp");
+
+  let celsiusLink = document.querySelector("#degree-C");
+  let fahrenheitLink = document.querySelector("#degree-F");
+  fahrenheitLink.classList.add("active");
+  celsiusLink.classList.remove("active");
+
+  temperatureElement.innerHTML = Math.round(showFahrenheit);
 }
 
 let showFahrenheit = null;
 
 let searchCity = document.querySelector("#search-bar");
-searchCity.addEventListener("submit", search);
+searchCity.addEventListener("submit", citySubmit);
 
-//display F when F is selected
 let displayTempF = document.querySelector("#degree-F");
-displayTempF.addEventListener("click", search);
-
-//display C when C is selected
-function showCelsius(event) {
-  event.preventDefault();
-  let myTemp = Math.round((showFahrenheit - 32) / 1.8);
-
-  let temperatureElement = document.querySelector("#current-temp");
-  temperatureElement.innerHTML = `${myTemp}`;
-}
+displayTempF.addEventListener("click", displayFahrenheit);
 
 let displayTempC = document.querySelector("#degree-C");
-displayTempC.addEventListener("click", showCelsius);
+displayTempC.addEventListener("click", displayCelsius);
+
+navigator.geolocation.getCurrentPosition(function (position) {
+  let latitude = position.coords.latitude;
+  let longitude = position.coords.longitude;
+
+  fetch(
+    `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      let cityName = data.address.city;
+      console.log(cityName);
+      search(cityName);
+    });
+});
+
+function resetPage() {
+  location.reload();
+}
