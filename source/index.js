@@ -2,20 +2,78 @@ function resetPage() {
   location.reload();
 }
 
-let apiKey = "063f2d8d4205c00d9e83991e6beade04";
+let apiKey = "91f6bf18ce54b4e6a35e4e6af54b2317";
 
-function displayForecast() {
-  let forecast = document.querySelector("#forecast");
+//Display current day of week and current time
+let displayDate = document.querySelector("#current-datetime");
+
+function formatDate(date) {
+  let weekdays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let weekday = weekdays[date.getDay()];
+  let time = date.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  return `${weekday} ${time}`;
+}
+
+displayDate.innerHTML = formatDate(new Date());
+
+function formatEpoch(timestamp) {
+  let date = new Date(timestamp * 1000);
+
+  let weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  let weekday = weekdays[date.getDay()];
+
+  return `${weekday}`;
+}
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
+  let forecastElement = document.querySelector("#forecast");
+  console.log(response.data.daily);
 
   let forecastHTML = `<div class="row">`;
-  let days = ["Thur", "Fri", "Sat"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `       <div class="col-2">
-              <div class="forecast-date">${day}</div>
+  //let days = ["Thur", "Fri", "Sat"];
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 7 && index > 0) {
+      let weather = forecastDay.weather[0].main;
+      console.log(weather);
+
+      if (weather === "Clouds") {
+        image = "images/cloud.png";
+      } else if (weather === "Rain") {
+        image = "images/sun-cloud-rain.png";
+      } else if (weather === "Snow") {
+        image = "images/snow.png";
+      } else if (weather === "Thunderstorm") {
+        image = "images/lightning-storm.png";
+      } else if (weather === "Drizzle") {
+        image = "images/sun-cloud-rain.png";
+      } else {
+        image = "images/sunny.png";
+      }
+
+      let maxTemp = Math.round(forecastDay.temp.max);
+      let minTemp = Math.round(forecastDay.temp.min);
+
+      forecastHTML =
+        forecastHTML +
+        `       <div class="col-2">
+              <div class="forecast-date">${formatEpoch(forecastDay.dt)}</div>
               <img
-                src="images/sun-cloud.png"
+                src="${image}"
                 alt=""
                 class="forecast-image"
                 id="forecast-image"
@@ -24,27 +82,26 @@ function displayForecast() {
                 <span
                   class="forecast-temperature-max"
                   id="forecast-temperature-max"
-                  ><strong>72°</strong></span
+                  ><strong>${maxTemp}°</strong></span
                 >
                 /
                 <span
                   class="forecast-temperature-min"
                   id="forecast-temperature-min"
-                  >54°</span
+                  >${minTemp}°</span
                 >
               </div>
             </div>
           `;
-    forecaseHTML = forecastHTML + `</div>`;
+    }
   });
-
-  forecast.innerHTML = forecastHTML;
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
 }
 
 //display weather for current city.... rename for "my weather"
 function showMyWeather(response) {
   myFahrenheit = Math.round(response.data.main.temp);
-  displayForecast();
 
   let myCity = response.data.name;
   let city = document.querySelector("#current-city");
@@ -80,23 +137,18 @@ function showMyWeather(response) {
 
   let myWeatherMain = response.data.weather[0].main;
   let newImage = document.querySelector("#img-current-temp");
-  if (`${myWeatherMain}` === "Clear") {
-    newImage.src = "images/sunny.png";
-  }
   if (`${myWeatherMain}` === "Clouds") {
     newImage.src = "images/cloud.png";
-  }
-  if (`${myWeatherMain}` === "Rain") {
+  } else if (`${myWeatherMain}` === "Rain") {
     newImage.src = "images/sub-cloud-rain.png";
-  }
-  if (`${myWeatherMain}` === "Snow") {
+  } else if (`${myWeatherMain}` === "Snow") {
     newImage.src = "images/snow.png";
-  }
-  if (`${myWeatherMain}` === "Thunderstorm") {
+  } else if (`${myWeatherMain}` === "Thunderstorm") {
     newImage.src = "images/lightning-storm.png";
-  }
-  if (`${myWeatherMain}` === "Drizzle") {
+  } else if (`${myWeatherMain}` === "Drizzle") {
     newImage.src = "images/sub-cloud-rain.png";
+  } else {
+    newImage.src = "images/sunny.png";
   }
 
   let myEpochTime = response.data.dt;
@@ -108,6 +160,7 @@ function showMyWeather(response) {
 
   if (`${myHours}` >= 21 && `${myHours}` <= 4) {
     gradient = "linear-gradient(to top, #09203f 0%, #537895 100%)";
+    footerColor.classList.remove("footer");
     footerColor.classList.add("footer-dark"); //evening
   } else if (`${myHours}` >= 5 && `${myHours}` <= 7) {
     gradient =
@@ -121,8 +174,9 @@ function showMyWeather(response) {
     gradient =
       "linear-gradient(109.6deg, rgb(204, 228, 247) 11.2%, rgb(237, 246, 250) 100.2%)"; //daytime clear
   }
-
   body.style.background = gradient;
+
+  getForecast(response.data.coord);
 }
 
 function showPosition(position) {
@@ -130,7 +184,6 @@ function showPosition(position) {
   let myLongitude = position.coords.longitude;
 
   let apiUrlMyWeather = `https://api.openweathermap.org/data/2.5/weather?lat=${myLatitude}&lon=${myLongitude}&units=imperial&appid=${apiKey}`;
-  console.log(apiUrlMyWeather);
   axios.get(apiUrlMyWeather).then(showMyWeather);
 }
 
@@ -154,7 +207,12 @@ function showMyCelsius(event) {
 
 function getForecast(coordinates) {
   console.log(coordinates);
-  // let apiSearchURLForecast = `https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude=hourly,daily&units=imperial&appid=${apiKey}`;
+  let apiForecastURL = "281450ec88936f4fa8ee9864682b49a0";
+
+  //let apiSearchURLForecast = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lon}&cnt=5&appid=${apiKey}`;
+  let apiSearchURLForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&appid=${apiForecastURL}`;
+  console.log(apiSearchURLForecast);
+  axios.get(apiSearchURLForecast).then(displayForecast);
 }
 
 //display weather for searched city .... rename for "searched weather"
@@ -166,8 +224,6 @@ function showTemperature(response) {
   let weatherDescription = response.data.weather[0].description;
   let weather = document.querySelector("#current-weather");
   weather.innerHTML = `${weatherDescription}`;
-
-  displayForecast();
 
   showFahrenheit = Math.round(response.data.main.temp);
 
@@ -193,23 +249,18 @@ function showTemperature(response) {
 
   let weatherMain = response.data.weather[0].main;
   let newImage = document.querySelector("#img-current-temp");
-  if (`${weatherMain}` === "Clear") {
-    newImage.src = "images/sunny.png";
-  }
   if (`${weatherMain}` === "Clouds") {
     newImage.src = "images/cloud.png";
-  }
-  if (`${weatherMain}` === "Rain") {
+  } else if (`${weatherMain}` === "Rain") {
     newImage.src = "images/sun-cloud-rain.png";
-  }
-  if (`${weatherMain}` === "Snow") {
+  } else if (`${weatherMain}` === "Snow") {
     newImage.src = "images/snow.png";
-  }
-  if (`${weatherMain}` === "Thunderstorm") {
+  } else if (`${weatherMain}` === "Thunderstorm") {
     newImage.src = "images/lightning-storm.png";
-  }
-  if (`${weatherMain}` === "Drizzle") {
+  } else if (`${weatherMain}` === "Drizzle") {
     newImage.src = "images/sun-cloud-rain.png";
+  } else {
+    newImage.src = "images/sunny.png";
   }
 
   getForecast(response.data.coord);
@@ -224,7 +275,6 @@ function search(event) {
     newCity.innerHTML = `${searchInput.value}`;
 
     let apiUrlSearch = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput.value}&units=imperial&appid=${apiKey}`;
-    console.log(apiUrlSearch);
     axios.get(apiUrlSearch).then(showTemperature);
   }
 }
@@ -249,28 +299,3 @@ function showCelsius(event) {
 
 let displayTempC = document.querySelector("#degree-C");
 displayTempC.addEventListener("click", showCelsius);
-
-//Display current day of week and current time
-let displayDate = document.querySelector("#current-datetime");
-
-function formatDate(date) {
-  let weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  let weekday = weekdays[date.getDay()];
-  let time = date.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-  return `${weekday} ${time}`;
-}
-
-displayDate.innerHTML = formatDate(new Date());
