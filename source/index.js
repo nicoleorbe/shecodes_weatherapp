@@ -1,3 +1,7 @@
+function resetPage() {
+  location.reload();
+}
+
 let apiKey = "91f6bf18ce54b4e6a35e4e6af54b2317";
 
 //Display current day of week and current time
@@ -170,7 +174,7 @@ function showTemperature(response) {
   } else if (`${myHours}` >= 17 && `${myHours}` <= 20) {
     gradient =
       "linear-gradient(75.2deg, rgb(255, 182, 138) 2.5%, rgb(255, 158, 211) 44.8%, rgb(41, 196, 255) 102.3%)"; //sunset
-  } else if (`${myWeatherMain}` !== "Clear") {
+  } else if (`${weatherMain}` !== "Clear") {
     gradient = "linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%)"; //daytime cloud/rain
   } else {
     gradient =
@@ -243,23 +247,60 @@ displayTempF.addEventListener("click", displayFahrenheit);
 let displayTempC = document.querySelector("#degree-C");
 displayTempC.addEventListener("click", displayCelsius);
 
-navigator.geolocation.getCurrentPosition(function (position) {
-  let latitude = position.coords.latitude;
-  let longitude = position.coords.longitude;
+// navigator.geolocation.getCurrentPosition(function (position) {
+//   let latitude = position.coords.latitude;
+//   let longitude = position.coords.longitude;
 
-  fetch(
-    `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
-  )
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      let cityName = data.address.city;
-      console.log(cityName);
-      search(cityName);
-    });
-});
+//   fetch(
+//     `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+//   )
+//     .then(function (response) {
+//       return response.json();
+//     })
+//     .then(function (data) {
+//       let cityName = data.address.city;
+//       console.log(cityName);
+//       search(cityName);
+//     });
+// });
 
-function resetPage() {
-  location.reload();
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      let latitude = position.coords.latitude;
+      let longitude = position.coords.longitude;
+
+      fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          let cityName = data.address.city;
+          if (typeof cityName !== "undefined") {
+            console.log(cityName);
+            search(cityName);
+          } else {
+            // Handle undefined city name
+            console.log("City name is undefined");
+            let defaultLocation = "New York";
+            search(defaultLocation);
+          }
+        });
+    },
+    function (error) {
+      // Handle geolocation error
+      console.log("Geolocation error:", error);
+      // Use a default location as a fallback
+      let defaultLocation = "New York";
+      search(defaultLocation);
+    }
+  );
+} else {
+  // Geolocation API is not supported
+  console.log("Geolocation API is not supported");
+  // Use a default location as a fallback
+  let defaultLocation = "New York";
+  search(defaultLocation);
 }
