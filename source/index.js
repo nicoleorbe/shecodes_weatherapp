@@ -153,6 +153,32 @@ function showTemperature(response) {
     newImage.src = "images/sunny.png";
   }
 
+  let myEpochTime = response.data.dt;
+  let myTime = new Date(myEpochTime * 1000);
+  let myHours = new Date(myTime).getHours();
+  let body = document.querySelector("body");
+  let footerColor = document.querySelector("footer");
+  let gradient;
+
+  if (`${myHours}` >= 21 && `${myHours}` <= 4) {
+    gradient = "linear-gradient(to top, #09203f 0%, #537895 100%)";
+    footerColor.classList.remove("footer");
+    footerColor.classList.add("footer-dark"); //evening
+  } else if (`${myHours}` >= 5 && `${myHours}` <= 7) {
+    gradient =
+      "linear-gradient(75.2deg, rgb(41, 196, 255) -2.5%, rgb(255, 158, 211) 55%, rgb(255, 182, 138) 102.3%)"; //sunrise
+  } else if (`${myHours}` >= 17 && `${myHours}` <= 20) {
+    gradient =
+      "linear-gradient(75.2deg, rgb(255, 182, 138) 2.5%, rgb(255, 158, 211) 44.8%, rgb(41, 196, 255) 102.3%)"; //sunset
+  } else if (`${myWeatherMain}` !== "Clear") {
+    gradient = "linear-gradient(45deg, #93a5cf 0%, #e4efe9 100%)"; //daytime cloud/rain
+  } else {
+    gradient =
+      "linear-gradient(109.6deg, rgb(204, 228, 247) 11.2%, rgb(237, 246, 250) 100.2%)"; //daytime clear
+  }
+
+  body.style.background = gradient;
+
   getForecast(response.data.coord);
 }
 
