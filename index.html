@@ -42,11 +42,15 @@
               placeholder="Enter a City"
             />
           </div>
-          <div class="col-3 btn-search">
+          <div class="col-2 btn-search">
             <button class="btn" type="submit" id="button-search">Search</button>
           </div>
-          <div class="col-4 btn-current">
-            <button class="btn" onclick="resetPage()" id="button-reset">
+          <div class="col-5 btn-current">
+            <button
+              class="btn btn-mylocation"
+              onclick="resetPage()"
+              id="button-reset"
+            >
               My Weather
             </button>
           </div>
@@ -59,7 +63,6 @@
               <div class="col-md-6 weather-date">
                 <h1 class="weather-title">Weather</h1>
                 <p class="current-datetime" id="current-datetime"></p>
-                <p class="current-weather" id="current-weather"></p>
               </div>
               <div class="col-md-6"></div>
             </div>
@@ -85,6 +88,7 @@
                   alt="Current Weather Image"
                   id="img-current-temp"
                 />
+                <p class="current-weather" id="current-weather"></p>
               </div>
             </div>
           </div>
@@ -92,7 +96,7 @@
 
         <!-- third row -->
         <div
-          class="row mb-4 justify-content-evenly text-center weather-details"
+          class="row mb-4 mt-2 justify-content-evenly text-center weather-details"
         >
           <div class="col-6">
             <div class="row">

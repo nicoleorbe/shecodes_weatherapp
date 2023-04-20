@@ -35,6 +35,11 @@ footer span {
 
 .btn-current {
   text-align: right;
+  display: block;
+}
+
+.btn-mylocation {
+  display: block;
 }
 
 .search-bar .btn {
@@ -74,10 +79,6 @@ footer span {
   margin-top: 50px !important;
   margin-bottom: 50px !important;
   max-width: 800px !important;
-}
-
-.weather-detail-container {
-  margin-top: 30px;
 }
 
 .current-city {
