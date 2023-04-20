@@ -33,6 +33,10 @@ footer span {
   color: #ff3cac;
 }
 
+.btn-current {
+  text-align: right;
+}
+
 .search-bar .btn {
   background-color: var(--sun-yellow);
   border-radius: var(--button-border-radius);
@@ -65,9 +69,11 @@ footer span {
 }
 
 .weather-container {
-  display: block;
-  margin: 0 auto;
-  max-width: 800px;
+  display: block !important;
+  margin: 0 auto !important;
+  margin-top: 50px !important;
+  margin-bottom: 50px !important;
+  max-width: 800px !important;
 }
 
 .weather-detail-container {
@@ -75,22 +81,15 @@ footer span {
 }
 
 .current-city {
-  display: block;
-  text-align: left;
   text-transform: capitalize;
 }
 
 .current-temp {
-  display: block;
-  margin-top: 0;
-  line-height: 40px;
-  text-align: left;
-  font-size: 60px;
+  font-size: 72px;
+  line-height: 70px !important;
 }
 
 .degree-symbol {
-  display: block;
-  text-align: left;
   font-size: 0.95rem;
 }
 
@@ -104,13 +103,11 @@ footer span {
 }
 
 .weather-title {
-  text-align: right;
   margin-bottom: 0;
   font-size: 34px;
 }
 
 .current-datetime {
-  text-align: right;
   margin-bottom: 5px;
   margin-top: 0;
   line-height: 15px;
@@ -118,15 +115,13 @@ footer span {
 
 .current-weather {
   text-transform: capitalize;
-  margin-top: 0;
-  line-height: 15px;
   font-weight: 500;
 }
 
 .weather-details {
   margin-top: 10px;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 400;
+  font-size: 14px;
   color: var(--dark-turquoise);
 }
 
@@ -159,7 +154,7 @@ footer span {
 }
 
 .img-current-temp {
-  width: 75px;
+  width: 100px;
 }
 
 .img-temp-graph {
