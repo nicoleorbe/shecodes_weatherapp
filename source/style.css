@@ -208,4 +208,8 @@ footer span {
     margin: 0 auto;
     text-align: center;
   }
+
+  .weather-container {
+    margin-bottom: 10px !important;
+  }
 }
