@@ -139,6 +139,12 @@ footer span {
   margin-top: 30px;
 }
 
+.row .forecast-day {
+  width: auto;
+  margin: 0 auto;
+  text-align: center;
+}
+
 .forecast-date {
   text-transform: uppercase;
 }
@@ -174,4 +180,32 @@ footer span {
 
 .span-footer-coffee:hover {
   transform: scale(1.3);
+}
+
+@media (max-width: 768px) {
+  .search-bar .col-md-5,
+  .search-bar .col-md-2,
+  .search-bar .col-md-5 {
+    flex: none; /* Prevent flex behavior */
+    max-width: 100%; /* Make columns take full width */
+  }
+
+  .search-bar .col-md-5,
+  .search-bar .col-md-2 {
+    margin-bottom: 10px; /* Add space between columns */
+  }
+
+  .input-search-new-city {
+    display: block; /* Stack input field */
+    text-align: center; /* Center text */
+  }
+
+  .row .btn-search,
+  .row .btn-current,
+  .row .forecast-day {
+    display: inline-block !important; /* Keep buttons inline */
+    width: auto;
+    margin: 0 auto;
+    text-align: center;
+  }
 }

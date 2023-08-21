@@ -42,11 +42,12 @@ function formatEpoch(timestamp) {
 function displayForecast(response) {
   let forecast = response.data.daily;
   let forecastElement = document.querySelector("#forecast");
-
+  const daysToShow = window.innerWidth < 768 ? 6 : 7;
   let forecastHTML = `<div class="row">`;
-  //let days = ["Thur", "Fri", "Sat"];
+
   forecast.forEach(function (forecastDay, index) {
-    if (index < 7 && index > 0) {
+    // if (index < 7 && index > 0) {
+    if (index < daysToShow && index > 0) {
       let weather = forecastDay.weather[0].main;
       if (weather === "Clouds") {
         image = "images/cloud.png";
@@ -67,7 +68,7 @@ function displayForecast(response) {
 
       forecastHTML =
         forecastHTML +
-        `       <div class="col-2">
+        `   <div class="col-2 forecast-day">
               <div class="forecast-date">${formatEpoch(forecastDay.dt)}</div>
               <img
                 src="${image}"
