@@ -2,7 +2,7 @@ function resetPage() {
   location.reload();
 }
 
-let apiKey = "91f6bf18ce54b4e6a35e4e6af54b2317";
+let apiKey = "063f2d8d4205c00d9e83991e6beade04";
 
 //Display current day of week and current time
 let displayDate = document.querySelector("#current-datetime");
@@ -98,9 +98,9 @@ function displayForecast(response) {
 }
 
 function getForecast(coordinates) {
-  let apiForecastURL = "281450ec88936f4fa8ee9864682b49a0";
+  let apiForecastURL = "91f6bf18ce54b4e6a35e4e6af54b2317";
 
-  let apiSearchURLForecast = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&appid=${apiForecastURL}`;
+  let apiSearchURLForecast = `https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&exclude=minutely,hourly,current,alerts&&appid=${apiForecastURL}`;
   axios.get(apiSearchURLForecast).then(displayForecast);
 }
 
